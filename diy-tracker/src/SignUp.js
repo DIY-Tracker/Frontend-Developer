@@ -48,10 +48,10 @@ class SignUp extends React.Component {
   login = e => {
     e.preventDefault();
     axios
-      .post('/register', this.state.credentials) //this may need to be changed.
+      .post('https://diy-tracker.herokuapp.com/createnewuser', this.state.credentials)
       .then(res => {
         console.log('Add User:', res);
-        this.props.history.push('/'); //this will need to be changed based on where we redirect.
+        this.props.history.push('/login');
       })
       .catch(err => console.log(err));
   };
