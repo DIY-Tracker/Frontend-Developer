@@ -1,5 +1,4 @@
 import React from "react";
-import { axiosWithAuth } from './utils/axiosWithAuth';
 import axios from 'axios';
 
 import styled from 'styled-components';
@@ -28,7 +27,7 @@ align-items:center;
 const Input =styled.input`
 border-radius: 5px;
 `;
-class Login extends React.Component {
+class SignUp extends React.Component {
 
   state = {
     credentials: {
@@ -49,16 +48,9 @@ class Login extends React.Component {
   login = e => {
     e.preventDefault();
     axios
-      .post('https://diy-tracker.herokuapp.com/login', `grant_type=password&username=${this.state.credentials.username}&password=${this.state.credentials.password}`, {
-
-        headers: {
-          Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
-          'Content-Type': 'application/x-www-form-urlencoded'
-  
-        }})
+      .post('/register', this.state.credentials) //this may need to be changed.
       .then(res => {
-        console.log('token response:', res);
-        localStorage.setItem('token', res.data.access_token);
+        console.log('Add User:', res);
         this.props.history.push('/'); //this will need to be changed based on where we redirect.
       })
       .catch(err => console.log(err));
@@ -70,7 +62,7 @@ class Login extends React.Component {
         <FormContainer>
         <form onSubmit={this.login}>
         <FieldContainer>
-          <h3>Welcome Back</h3>
+          <h3>Create Account</h3>
           <Input
             type="text"
             name="username"
@@ -85,7 +77,7 @@ class Login extends React.Component {
             placeholder='Password'
             onChange={this.handleChange}
           />
-          <button>Log in</button>
+          <button>Sign Up</button>
           </FieldContainer>
         </form>
         </FormContainer>
@@ -94,4 +86,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default SignUp;
