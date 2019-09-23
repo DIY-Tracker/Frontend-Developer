@@ -1,8 +1,9 @@
 import React from "react";
-import { axiosWithAuth } from './utils/axiosWithAuth';
 import axios from 'axios';
 
 import styled from 'styled-components';
+import './App.css';
+
 
 const FormContainer = styled.div`
   height: 50vh;
@@ -12,6 +13,8 @@ const FormContainer = styled.div`
   align-items:center;
   justify-content:center;
   border-radius:5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
 `
 const FieldContainer = styled.div`
   height: 170px;
@@ -68,10 +71,10 @@ class Login extends React.Component {
   render() {
     return (
       <DivContainer>
+        <h3 className="welcomeBack">Welcome Back</h3>
         <FormContainer>
         <form onSubmit={this.login}>
         <FieldContainer>
-          <h3>Welcome Back</h3>
           <Input
             type="text"
             name="username"

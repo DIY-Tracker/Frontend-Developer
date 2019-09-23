@@ -10,6 +10,7 @@ const FormContainer = styled.div`
   display:flex;
   align-items:center;
   justify-content:center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `
 const FieldContainer = styled.div`
   height: 170px;
@@ -59,10 +60,10 @@ class SignUp extends React.Component {
   render() {
     return (
       <DivContainer>
+        <h3 className="welcomeBack">Create Account</h3>
         <FormContainer>
         <form onSubmit={this.login}>
         <FieldContainer>
-          <h3>Create Account</h3>
           <Input
             type="text"
             name="username"
