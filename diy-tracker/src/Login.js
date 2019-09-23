@@ -22,10 +22,10 @@ class Login extends React.Component {
   login = e => {
     e.preventDefault();
     axiosWithAuth()
-      .post('/login', this.state.credentials)
+      .post('/login', this.state.credentials) //this may need to be changed.
       .then(res => {
         localStorage.setItem('token', res.data.payload);
-        this.props.history.push('/protected');
+        this.props.history.push('/protected'); //this will need to be changed based on where we redirect.
       })
       .catch(err => console.log(err));
   };
