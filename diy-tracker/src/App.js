@@ -16,7 +16,7 @@ function App() {
       <Route path="/login" component={Login}/>       
       <Route path="/signup" component={SignUp}/>   
 
-      <Route path='/users/:userId' component={UserProfile} />
+      <Route exact path='/users/:userId' component={UserProfile} />
       <Route path='/users/:userId/add' component={AddProject} />
     </div>
   );

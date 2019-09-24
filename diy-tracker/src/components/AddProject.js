@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { withFormik, Field, Form, FieldArray } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+// import { Button, Checkbox, Form } from 'semantic-ui-react';
 
-const AddProjectForm = ({ values, touched, errors, status }) => {
-  const [ projects, setProjects ] = useState([]);
+
+
+const AddProjectForm = ({ values, touched, errors, status, setFieldValue }) => {
+  const [ projects, setProjects ] = useState({});
 
   useEffect(() => {
     if (status) {
-      setProjects([ ...projects, status])
+      setProjects({...projects, status})
     }
   }, [status])
 
@@ -30,7 +33,6 @@ const AddProjectForm = ({ values, touched, errors, status }) => {
                         value && value.length < 1 ? "Minimum 1 material required" : undefined
                         }
                       />
-                      {/* {meta.error && meta.touched && (<p>{'materials required'}</p>)} */}
                       <button
                         type="button"
                         onClick={() => arrayHelpers.remove(index)} // remove a material from the list
@@ -51,28 +53,59 @@ const AddProjectForm = ({ values, touched, errors, status }) => {
                     Add materials
                   </button>
                 )}
-                {/* <div>
-                  <button type="submit">Submit</button>
-                </div> */}
               </div>
             )}
           />
-        {/* <Field type='materials' name='materials' placeholder='Materials Needed' /> */}
-        {/* {touched.materials && errors.materials && (<p>{errors.materials}</p>)} */}
-        <Field type='steps' name='steps' placeholder='Steps' />
-        {touched.steps && errors.steps && (<p>{errors.steps}</p>)}
-        <button type='submit'>Submit</button>
+        <FieldArray
+          name="steps"
+          render={arrayHelpers => (
+            <div>
+              {values.steps && values.steps.length > 0 ? (
+                values.steps.map((step, index) => (
+                  <div key={index}>
+                    <Field component='textarea' name={`steps.${index}`} 
+                      validate={value =>
+                      value && value.length < 1 ? "Minimum 1 step required" : undefined
+                      }
+                    />
+                    <button
+                      type="button"
+                      onClick={() => arrayHelpers.remove(index)} // remove a step from the list
+                    >
+                      Remove
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
+                    >
+                      Add
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <button type="button" onClick={() => arrayHelpers.push("")}>
+                  {/* show this when user has removed all steps from the list */}
+                  Add Steps
+                </button>
+              )}
+            </div>
+          )}
+        />
+        <Field type='fileUrl' name='fileUrl' placeholder='File URL' />
+        {touched.fileUrl && touched.fileUrl && (<p>{errors.fileUrl}</p>)}
+        <button type='submit'>Submit</button> 
       </Form>
     </div>
   )
 }
 
 const FormikAddProjectForm = withFormik({
-  mapPropsToValues({ name, materials, steps }) {
+  mapPropsToValues({ name, materials, steps, fileUrl }) {
     return {
       name: name || '',
       materials: materials || '',
-      steps: steps || ''
+      steps: steps || '',
+      fileUrl : fileUrl || ''
     }
   },
   validationSchema: Yup.object().shape({
@@ -87,10 +120,12 @@ const FormikAddProjectForm = withFormik({
     // )
     // .required('Must have materials') // these constraints are shown if and only if inner constraints are satisfied
     // .min(3, 'Minimum of 3 materials'),
-    materials: Yup.string()
-    .required('The materials needed for the project are required'),
-    steps: Yup.string()
-    .required('Steps are required. If the project is not yet complete just list the steps that you have completed till now')
+    // materials: Yup.string()
+    // .required('The materials needed for the project are required'),
+    // steps: Yup.string()
+    // .required('Steps are required. If the project is not yet complete just list the steps that you have completed till now'),
+    fileUrl: Yup.string()
+    .required('Please add URL of the image you want to upload')
   }),
   handleSubmit( values, { setStatus, resetForm }) {
     console.log(values);
