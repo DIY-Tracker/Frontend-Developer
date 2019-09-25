@@ -7,39 +7,6 @@ import Grid from '@material-ui/core/Grid';
 
 import ProjectCard from './ProjectCard';
 
-const data = [
-  {
-    id: 1,
-    name: 'quilling',
-    description: 'quilling flower',
-    materials: ['quilling tool', 'quilling strips', 'crimper'],
-    steps: ['Roll the strips', 'Press down on the strips to make a shape', 'Glue it together'],
-    fileUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-217KDkYzCJK_F317aWAWs_asjS2JlYlDZBbHXlFYz1-lvGeHLw'
-  },
-  {
-    id: 2,
-    name: 'quilling',
-    materials: ['quilling tool', 'quilling strips', 'crimper'],
-    steps: ['Roll the strips', 'Press down on the strips to make a shape', 'Glue it together'],
-    fileUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-217KDkYzCJK_F317aWAWs_asjS2JlYlDZBbHXlFYz1-lvGeHLw'
-  },
-  {
-    id: 3,
-    name: 'quilling',
-    materials: ['quilling tool', 'quilling strips', 'crimper'],
-    steps: ['Roll the strips', 'Press down on the strips to make a shape', 'Glue it together'],
-    fileUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-217KDkYzCJK_F317aWAWs_asjS2JlYlDZBbHXlFYz1-lvGeHLw'
-  },
-  {
-    id: 4,
-    name: 'quilling',
-    materials: ['quilling tool', 'quilling strips', 'crimper'],
-    steps: ['Roll the strips', 'Press down on the strips to make a shape', 'Glue it together'],
-    fileUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-217KDkYzCJK_F317aWAWs_asjS2JlYlDZBbHXlFYz1-lvGeHLw'
-  },
-
-]
-
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -52,21 +19,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserProfile = props => {
-  // console.log(props);
+  console.log(props);
   const classes = useStyles();
   const [ projects, setProjects ] = useState([])
+  const userId = props.match.params.userId;
   useEffect(() => {
     const getProjects = () => {
-      // axios
-      //   .get('https://my.api.mockaroo.com/diydummydata.json?key=8c104da0')
-      //   .then(response => {
-      //     console.log(response);
-      //     setProjects(response.data)
-      //   })
-      //   .catch(error => {
-      //     console.log('Server Error', error);
-      //   })
-      setProjects(data);
+      axios
+        .get(`https://diy-tracker.herokuapp.com/users/user/${userId}`)
+        .then(response => {
+          // console.log(response);
+          setProjects(response.data.projects);
+        })
+        .catch(error => {
+          console.log('Server Error', error);
+        })
+      
     }
     getProjects();
   }, []);
