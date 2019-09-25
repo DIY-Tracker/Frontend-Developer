@@ -33,7 +33,7 @@ function App() {
       <h1>DIY Tracker</h1>
       <Route path="/login" component={Login}/>       
       <Route path="/signup" component={SignUp}/>
-      <Route path="/projects/project" 
+      <Route path="/projects/project/:projectId" 
       render={props=>{
       return <EditForm {...props} />
         }}

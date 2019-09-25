@@ -17,7 +17,7 @@ const FormContainer = styled.div`
 `
 const FieldContainer = styled.div`
   height: 170px;
-  display: flex;
+  display: flex; 
   flex-direction: column;
   justify-content: space-evenly;
 `

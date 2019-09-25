@@ -20,10 +20,14 @@ const EditForm = props => {
   
   const { match } = props;
   useEffect(() => {
-    const id = match.params.id;
-    const projectToUpdate = projects.find(item => `${item.id}` === id);
+    const id = match.params.projectId;
+    const projectToUpdate = projects[0].find(item => {
+      if (`${item.projectId}` === id) {
+        return item
+      }
+    })
+
     if (projectToUpdate) {
-      console.log(projectToUpdate);
       setProject(projectToUpdate);
     }
   }, [match, projects]);
@@ -39,17 +43,28 @@ const EditForm = props => {
   };
 
   const handleSubmit = e => {
+    console.log('inside handle submit', project)
     e.preventDefault();
     axiosWithAuth()
-    .put(`/projects/project/${project.projectId}`, project)
+    .put(`/projects/projects/${project.projectId}`, project)
       .then(res => {
         setProject(res.data);
         window.location =`/projects/project/${project.projectId}`;
+        console.log('ewerew', window.location);
         setProject(initialProject);
       })
       .catch(err => console.log(err.response));
   };
 
+  const deleteProject = project => {
+    axiosWithAuth()
+      .delete(`/projects/project/${project.projectId}`)
+      .then(res => {
+        setProject(project);
+        window.location = "/";
+      })
+      .catch(err => console.log(err.response));
+  }
   return (
     <div>
       <h2>Edit Project</h2>
@@ -100,6 +115,7 @@ const EditForm = props => {
         <div className="baseline" />
 
         <button type="submit">Edit</button>
+        <button onClick= { () => deleteProject(project)}>Delete</button>
       </form>
     </div>
   );
