@@ -5,24 +5,28 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import { ProjectContext } from '../contexts/ProjectContext';
 
 const initialProject = {
-  title: '',
-  image: '',
-  materials: '',
-  steps: '',
+projectName : "",
+description : "",
+photoUrl : "",
+materials : "",
+steps : ""
 };
 
-const EditForm = () => {
+const EditForm = props => {
   const projects = useContext(ProjectContext);
+  console.log(projects);
   const [project, setProject] = useState(initialProject);
-
-  // useEffect(() => {
-  //   const id = projects.match.params.id;
-  //   const projectToUpdate = projects.find(item => `${item.id}` === id); 
-  //   if (projectToUpdate) {
-  //     console.log(projectToUpdate);
-  //     setProject(projectToUpdate);
-  //   }
-  // }, [projects.match, projects]); 
+  console.log(props);
+  
+  const { match } = props;
+  useEffect(() => {
+    const id = match.params.id;
+    const projectToUpdate = projects.find(item => `${item.id}` === id);
+    if (projectToUpdate) {
+      console.log(projectToUpdate);
+      setProject(projectToUpdate);
+    }
+  }, [match, projects]);
 
   const changeHandler = ev => {
     ev.persist();
@@ -37,10 +41,10 @@ const EditForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     axiosWithAuth()
-    .put(``, project) //plug in the endpoint here.
+    .put(`/projects/project/${project.projectId}`, project)
       .then(res => {
-        setProject(res.data); //this might have to change
-        window.location =`/projects/${project.id}`; //endpoint will have to change
+        setProject(res.data);
+        window.location =`/projects/project/${project.projectId}`;
         setProject(initialProject);
       })
       .catch(err => console.log(err.response));
@@ -52,19 +56,28 @@ const EditForm = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          name="title"
+          name="projectName"
           onChange={changeHandler}
           placeholder="Title"
-          value={project.title}
+          value={project.projectName}
         />
         <div className="baseline" />
 
         <input
           type="text"
-          name="image"
+          name="description"
           onChange={changeHandler}
-          placeholder="Image URL"
-          value={project.image}
+          placeholder="Description"
+          value={project.description}
+        />
+        <div className="baseline" />
+
+        <input
+          type="text"
+          name="photoUrl"
+          onChange={changeHandler}
+          placeholder="Photo URL"
+          value={project.photoUrl}
         />
         <div className="baseline" />
 
@@ -90,6 +103,6 @@ const EditForm = () => {
       </form>
     </div>
   );
-};
 
+};
 export default EditForm;
