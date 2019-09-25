@@ -8,6 +8,7 @@ import EditForm from './components/EditForm';
 
 import UserProfile from './components/UserProfile';
 import AddProject from './components/AddProject';
+import AllProjects from './components/AllProjects';
 import './App.css';
 
 //contexts
@@ -34,10 +35,14 @@ function App() {
       <Route path="/login" component={Login}/>       
       <Route path="/signup" component={SignUp}/>
       <Route path="/projects/project/:projectId" 
-      render={props=>{
-      return <EditForm {...props} />
-        }}
-        />  
+            render={props=>{
+              return <EditForm {...props} />
+                }}
+                />  
+
+      <Route exact path='/allprojects' component={AllProjects} />  
+      <Route exact path='/users/:userId' component={UserProfile} />
+
       <Route path='/users/:userId' component={UserProfile} />
       <Route path='/users/:userId/add' component={AddProject} />
     </div>

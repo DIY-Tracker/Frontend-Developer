@@ -2,107 +2,192 @@ import React, { useState, useEffect } from 'react';
 import { withFormik, Field, Form, FieldArray } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import { TextField } from 'formik-material-ui';
+import Card from "@material-ui/core/Card";
+import InputAdornment from '@material-ui/core/InputAdornment';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 
-const AddProjectForm = ({ values, touched, errors, status }) => {
-  const [ projects, setProjects ] = useState([]);
+const useStyles = makeStyles(theme => ({
+  container: {
+    width: '1000px',
+    margin: '20px auto',
+    padding: '1000',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: '500px',
+    fontSize: '1rem',
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  mainbutton: {
+    margin: theme.spacing(1),
+    width: '500px',
+  },
+  dense: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+const AddProjectForm = ({ values, touched, errors, status, setFieldValue }, props) => {
+  console.log(props);
+  const classes = useStyles();
+  const [projects, setProjects] = useState({});
 
   useEffect(() => {
     if (status) {
-      setProjects([ ...projects, status])
+      setProjects({ ...projects, status })
     }
   }, [status])
 
   return (
-    <div>
-      <Form>
-        <Field type='name' name='name' placeholder='Project Name' />
-        {touched.name && errors.name && (<p>{errors.name}</p>)}
+    <Card className={classes.container}>
+      <Form className={classes.form}>
+        <Field type='projectName' name='projectName' placeholder='Enter Project Name' component={TextField} label='Project Name'
+          className={classes.textField} margin='normal' variant='outlined' />
+        {touched.projectName && errors.projectName && (<p>{errors.projectName}</p>)}
+        <Field type='description' name='description' placeholder='Enter Project Description' component={TextField} label='Project Description'
+          className={classes.textField} margin='normal' variant='outlined' />
+        {touched.description && errors.description && (<p>{errors.description}</p>)}  
+        {values.imageUrl && (<img src={values.imageUrl} alt='Project Image'/>)}
+        <Field type='imageUrl' name='imageUrl' placeholder='Enter File URL' component={TextField} label='Image URL'
+          className={classes.textField} margin='normal' variant='outlined' />
+        {touched.imageUrl && errors.imageUrl && (<p>{errors.imageUrl}</p>)}
+        
         <FieldArray
-            name="materials"
-            validateOnChange
-            render={arrayHelpers => (
+          name='materials'
+          render={arrayHelpers => (
+            <div>
               <div>
-                {values.materials && values.materials.length > 0 ? (
-                  values.materials.map((material, index) => (
-                    <div key={index}>
-                      <Field name={`materials.${index}`} 
-                        validate={value =>
-                        value && value.length < 1 ? "Minimum 1 material required" : undefined
-                        }
-                      />
-                      {/* {meta.error && meta.touched && (<p>{'materials required'}</p>)} */}
-                      <button
-                        type="button"
-                        onClick={() => arrayHelpers.remove(index)} // remove a material from the list
-                      >
-                        Remove
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
-                      >
-                        Add
-                      </button>
-                    </div>
-                  ))
-                ) : (
-                  <button type="button" onClick={() => arrayHelpers.push("")}>
-                    {/* show this when user has removed all materials from the list */}
-                    Add materials
-                  </button>
-                )}
-                {/* <div>
-                  <button type="submit">Submit</button>
-                </div> */}
+                <label>Materials Required</label>
               </div>
-            )}
-          />
-        {/* <Field type='materials' name='materials' placeholder='Materials Needed' /> */}
-        {/* {touched.materials && errors.materials && (<p>{errors.materials}</p>)} */}
-        <Field type='steps' name='steps' placeholder='Steps' />
-        {touched.steps && errors.steps && (<p>{errors.steps}</p>)}
-        <button type='submit'>Submit</button>
+              {
+                values.materials.map((material, index) => (
+                  <div key={index}>
+                    <Field name={`materials.${index}`} placeholder={`Material ${index + 1}`} label={`Material ${index + 1}`} component={TextField}
+                      className={classes.textField} margin='normal' variant='outlined'
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              edge="end"
+                              onClick={() => {
+                                values.materials.length > 1 ?
+                                arrayHelpers.remove(index) :
+                                setFieldValue('materials', [''])
+                              }}
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </div>
+                ))
+              }
+              <Button type="button" className={classes.button} variant='contained' size='small' onClick={() => arrayHelpers.push("")}>
+                Add materials
+              </Button>
+            </div>
+          )}
+        />
+        
+        <FieldArray
+          name='steps'
+          render={arrayHelpers => (
+            <div>
+              <div>
+                <label>Steps</label>
+              </div>
+              {
+                values.steps.map((step, index) => (
+                  <div key={index}>
+                    <Field name={`steps.${index}`} placeholder={`Step ${index + 1}`} label={`Step ${index + 1}`} component={TextField}
+                      className={classes.textField} margin='normal' variant='outlined'
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              edge="end"
+                              onClick={() => {
+                                values.steps.length > 1 ?
+                                arrayHelpers.remove(index) :
+                                setFieldValue('steps', [''])
+                              }}
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </div>
+                ))
+              }
+              <Button type="button" className={classes.button} variant='contained' size='small' onClick={() => arrayHelpers.push("")}>
+                Add Steps
+              </Button>
+            </div>
+          )}
+        />
+        <Button type='submit' className={classes.mainbutton} variant='contained' color='primary' size='large' >Submit</Button>
       </Form>
-    </div>
+    </Card>
   )
 }
 
 const FormikAddProjectForm = withFormik({
-  mapPropsToValues({ name, materials, steps }) {
+  mapPropsToValues({ projectName, materials, steps, imageUrl, description }) {
     return {
-      name: name || '',
-      materials: materials || '',
-      steps: steps || ''
+      projectName: projectName || '',
+      materials: materials || [''],
+      steps: steps || [''],
+      imageUrl: imageUrl || '',
+      description: description || ''
     }
   },
-  validationSchema: Yup.object().shape({
-    name: Yup.string()
-    .required('Project Name is required'),
-    // materials: Yup.array()
-    // .of(
-    //   Yup.object().shape({
-    //     material: Yup.string()
-    //       .required('Required'), // these constraints take precedence
-    //   })
-    // )
-    // .required('Must have materials') // these constraints are shown if and only if inner constraints are satisfied
-    // .min(3, 'Minimum of 3 materials'),
-    materials: Yup.string()
-    .required('The materials needed for the project are required'),
-    steps: Yup.string()
-    .required('Steps are required. If the project is not yet complete just list the steps that you have completed till now')
-  }),
-  handleSubmit( values, { setStatus, resetForm }) {
+  // validationSchema: Yup.object().shape({
+  // name: Yup.string()
+  // .required('Project Name is required'),
+  // materials: Yup.array()
+  // .of(
+  //   Yup.object().shape({
+  //     material: Yup.string()
+  //       .required('Required'), // these constraints take precedence
+  //   })
+  // )
+  // .required('Must have materials') // these constraints are shown if and only if inner constraints are satisfied
+  // .min(3, 'Minimum of 3 materials'),
+  // materials: Yup.string()
+  // .required('The materials needed for the project are required'),
+  // steps: Yup.string()
+  // .required('Steps are required. If the project is not yet complete just list the steps that you have completed till now'),
+  // fileUrl: Yup.string()
+  // .required('Please add URL of the image you want to upload')
+  // }),
+  handleSubmit(values, { setStatus, resetForm }) {
     console.log(values);
-    axios.post('https://reqres.in/api/users', values) 
-      .then(response => {
-        console.log(response);
-        setStatus(response.data);
-        resetForm();
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    // axios.post('https://diy-tracker.herokuapp.com/projects/projects/13', values)
+    //   .then(response => {
+    //     console.log(response);
+    //     setStatus(response.data);
+    //     resetForm();
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   })
   }
 
 })(AddProjectForm);
