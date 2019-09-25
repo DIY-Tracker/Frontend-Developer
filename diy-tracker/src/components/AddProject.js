@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AddProjectForm = ({ values, touched, errors, status, setFieldValue }) => {
+const AddProjectForm = ({ values, touched, errors, status, setFieldValue }, props) => {
+  console.log(props);
   const classes = useStyles();
   const [projects, setProjects] = useState({});
 
@@ -53,17 +54,16 @@ const AddProjectForm = ({ values, touched, errors, status, setFieldValue }) => {
   return (
     <Card className={classes.container}>
       <Form className={classes.form}>
-        <Field type='name' name='name' placeholder='Enter Project Name' component={TextField} label='Project Name'
+        <Field type='projectName' name='projectName' placeholder='Enter Project Name' component={TextField} label='Project Name'
           className={classes.textField} margin='normal' variant='outlined' />
-        {touched.name && errors.name && (<p>{errors.name}</p>)}
+        {touched.projectName && errors.projectName && (<p>{errors.projectName}</p>)}
         <Field type='description' name='description' placeholder='Enter Project Description' component={TextField} label='Project Description'
           className={classes.textField} margin='normal' variant='outlined' />
         {touched.description && errors.description && (<p>{errors.description}</p>)}  
-        {touched.name && errors.name && (<p>{errors.name}</p>)}
-        {values.fileUrl && (<img src={values.fileUrl} alt='Project Image'/>)}
-        <Field type='fileUrl' name='fileUrl' placeholder='Enter File URL' component={TextField} label='File URL'
+        {values.imageUrl && (<img src={values.imageUrl} alt='Project Image'/>)}
+        <Field type='imageUrl' name='imageUrl' placeholder='Enter File URL' component={TextField} label='Image URL'
           className={classes.textField} margin='normal' variant='outlined' />
-        {touched.fileUrl && errors.fileUrl && (<p>{errors.fileUrl}</p>)}
+        {touched.imageUrl && errors.imageUrl && (<p>{errors.imageUrl}</p>)}
         
         <FieldArray
           name='materials'
@@ -149,12 +149,13 @@ const AddProjectForm = ({ values, touched, errors, status, setFieldValue }) => {
 }
 
 const FormikAddProjectForm = withFormik({
-  mapPropsToValues({ name, materials, steps, fileUrl }) {
+  mapPropsToValues({ projectName, materials, steps, imageUrl, description }) {
     return {
-      name: name || '',
+      projectName: projectName || '',
       materials: materials || [''],
       steps: steps || [''],
-      fileUrl: fileUrl || ''
+      imageUrl: imageUrl || '',
+      description: description || ''
     }
   },
   // validationSchema: Yup.object().shape({
@@ -178,15 +179,15 @@ const FormikAddProjectForm = withFormik({
   // }),
   handleSubmit(values, { setStatus, resetForm }) {
     console.log(values);
-    axios.post('https://reqres.in/api/users', values)
-      .then(response => {
-        console.log(response);
-        setStatus(response.data);
-        resetForm();
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    // axios.post('https://diy-tracker.herokuapp.com/projects/projects/13', values)
+    //   .then(response => {
+    //     console.log(response);
+    //     setStatus(response.data);
+    //     resetForm();
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   })
   }
 
 })(AddProjectForm);

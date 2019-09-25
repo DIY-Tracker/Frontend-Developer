@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 const ProjectCard = props => {
   // console.log(props);
   const classes = useStyles();
-  const { projectName, materials, steps, photoUrl } = props.project;
+  const { projectName, materials, steps, photoUrl, description } = props.project;
 
   const [expanded, setExpanded] = useState(false);
 
@@ -73,11 +73,9 @@ const ProjectCard = props => {
         <Typography gutterBottom variant="h5" component="h2">
           {projectName}
         </Typography>
-        {/* <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography> */}
+        <Typography variant="body2" color="textSecondary" component="p">
+          {description}
+        </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton

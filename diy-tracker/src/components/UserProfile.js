@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserProfile = props => {
-  console.log(props);
+  // console.log(props);
   const classes = useStyles();
   const [ projects, setProjects ] = useState([])
   const userId = props.match.params.userId;
