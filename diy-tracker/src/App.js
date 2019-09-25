@@ -8,6 +8,7 @@ import EditForm from './components/EditForm';
 
 import UserProfile from './components/UserProfile';
 import AddProject from './components/AddProject';
+import AllProjects from './components/AllProjects';
 import './App.css';
 
 //contexts
@@ -32,7 +33,10 @@ function App() {
       <Navbar />
       <h1>DIY Tracker</h1>
       <Route path="/login" component={Login}/>       
-      <Route path="/signup" component={SignUp}/>
+      <Route path="/signup" component={SignUp}/>   
+
+      <Route exact path='/allprojects' component={AllProjects} />  
+      <Route exact path='/users/:userId' component={UserProfile} />
       <Route path="/projects/project" 
       render={props=>{
       return <EditForm {...props} />
