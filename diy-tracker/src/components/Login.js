@@ -62,7 +62,7 @@ class Login extends React.Component {
       .then(res => {
         console.log('token response:', res);
         localStorage.setItem('token', res.data.access_token);
-        this.props.history.push('/'); //this will need to be changed based on where we redirect.
+        this.props.history.push('/');
       })
       .catch(err => console.log(err));
   };
