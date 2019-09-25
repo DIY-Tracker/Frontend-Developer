@@ -56,6 +56,10 @@ const AddProjectForm = ({ values, touched, errors, status, setFieldValue }) => {
         <Field type='name' name='name' placeholder='Enter Project Name' component={TextField} label='Project Name'
           className={classes.textField} margin='normal' variant='outlined' />
         {touched.name && errors.name && (<p>{errors.name}</p>)}
+        <Field type='description' name='description' placeholder='Enter Project Description' component={TextField} label='Project Description'
+          className={classes.textField} margin='normal' variant='outlined' />
+        {touched.description && errors.description && (<p>{errors.description}</p>)}  
+        {touched.name && errors.name && (<p>{errors.name}</p>)}
         {values.fileUrl && (<img src={values.fileUrl} alt='Project Image'/>)}
         <Field type='fileUrl' name='fileUrl' placeholder='Enter File URL' component={TextField} label='File URL'
           className={classes.textField} margin='normal' variant='outlined' />

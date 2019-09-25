@@ -6,6 +6,7 @@ import SignUp from './components/SignUp'
 
 import UserProfile from './components/UserProfile';
 import AddProject from './components/AddProject';
+import AllProjects from './components/AllProjects';
 import './App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Route path="/login" component={Login}/>       
       <Route path="/signup" component={SignUp}/>   
 
+      <Route exact path='/allprojects' component={AllProjects} />  
       <Route exact path='/users/:userId' component={UserProfile} />
       <Route path='/users/:userId/add' component={AddProject} />
     </div>
