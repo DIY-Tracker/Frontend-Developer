@@ -7,8 +7,9 @@ export const Navbar = () => {
     <div className="navBar">
       <Link className="styledLink" to="/login">Login</Link>
       <Link className="styledLink" to="/signup">Sign Up</Link>
-      <Link className="styledLink" to="/projects/project">Edit Project</Link>
-
+      <Link className="styledLink" to="/allprojects">See Projects</Link>
+      <Link className="styledLink" to="/users/:userId/add">Create Project</Link>
+      <Link className="styledLink" to="/users/:userId">Profile</Link>
     </div>
 
     )

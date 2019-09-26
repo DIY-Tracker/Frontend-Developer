@@ -27,7 +27,10 @@ const AllProjects = () => {
       <h1>All Projects</h1>  
       {allProjects.map(project => {
         return (
-          <ProjectCard key={project.id} project={project}/>
+          <div>
+          <ProjectCard key={project.id} project={project} />
+
+          </div>
         )
       })}
     </div>

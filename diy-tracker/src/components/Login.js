@@ -17,7 +17,7 @@ const FormContainer = styled.div`
 `
 const FieldContainer = styled.div`
   height: 170px;
-  display: flex;
+  display: flex; 
   flex-direction: column;
   justify-content: space-evenly;
 `
@@ -62,7 +62,7 @@ class Login extends React.Component {
       .then(res => {
         console.log('token response:', res);
         localStorage.setItem('token', res.data.access_token);
-        this.props.history.push('/');
+        this.props.history.push('/allprojects');
       })
       .catch(err => console.log(err));
   };
