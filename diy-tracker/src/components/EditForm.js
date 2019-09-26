@@ -8,8 +8,8 @@ const initialProject = {
 projectName : "",
 description : "",
 photoUrl : "",
-materials : "",
-steps : ""
+materials : [],
+steps : []
 };
 
 const EditForm = props => {
@@ -37,7 +37,13 @@ const EditForm = props => {
     let value = ev.target.value;
 
     setProject({
-      ...project,
+      // ...project,
+      projectId: project.projectId,
+      projectName : project.projectName,
+      description : project.description,
+      photoUrl : project.photoUrl,
+      materials : project.materials,
+      steps : project.steps,
       [ev.target.name]: value
     });
   };
@@ -46,7 +52,7 @@ const EditForm = props => {
     console.log('inside handle submit', project)
     e.preventDefault();
     axiosWithAuth()
-    .put(`/projects/projects/${project.projectId}`, project)
+    .put(`/projects/project/${project.projectId}`, project)
       .then(res => {
         setProject(res.data);
         window.location =`/projects/project/${project.projectId}`;
@@ -61,7 +67,7 @@ const EditForm = props => {
       .delete(`/projects/project/${project.projectId}`)
       .then(res => {
         setProject(project);
-        window.location = "/";
+        window.location = "/allprojects";
       })
       .catch(err => console.log(err.response));
   }
