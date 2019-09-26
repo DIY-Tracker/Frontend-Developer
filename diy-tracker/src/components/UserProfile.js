@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserProfile = props => {
-  // console.log(props);
+  console.log(props);
   const classes = useStyles();
   const [ projects, setProjects ] = useState([])
   const userId = props.match.params.userId;
@@ -58,7 +58,7 @@ const UserProfile = props => {
     <div>
       <h1>My Projects</h1>
       <Button className={classes.button} variant='contained' color='primary' size='medium'
-        onClick={()=> props.history.push(`/users/${props.match.params.userID}/add`)}>
+        onClick={()=> props.history.push(`/users/${props.match.params.userId}/add`)}>
           Create New Project
       </Button>
       <div className={classes.root}>

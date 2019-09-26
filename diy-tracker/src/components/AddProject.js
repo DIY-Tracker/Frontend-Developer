@@ -185,7 +185,7 @@ const FormikAddProjectForm = withFormik({
         .catch(error => { 
           console.log(error);
         })
-    console.log('Form submitted');
+    // console.log('Form submitted');
   }
 
 })(AddProjectForm);

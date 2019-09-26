@@ -1,8 +1,46 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from "@material-ui/core/Card";
+import InputAdornment from '@material-ui/core/InputAdornment';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 //contexts
 import { ProjectContext } from '../contexts/ProjectContext';
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    width: '1000px',
+    margin: '20px auto',
+    padding: '1000',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: '500px',
+    fontSize: '1rem',
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  mainbutton: {
+    margin: theme.spacing(1),
+    width: '500px',
+  },
+  dense: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
 
 const initialProject = {
 projectName : "",
@@ -13,6 +51,7 @@ steps : []
 };
 
 const EditForm = props => {
+  const classes = useStyles();
   const projects = useContext(ProjectContext);
   console.log(projects);
   const [project, setProject] = useState(initialProject);
@@ -85,55 +124,79 @@ const EditForm = props => {
   return (
     <div>
       <h2>Edit Project</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="projectName"
-          onChange={changeHandler}
-          placeholder="Title"
-          value={project.projectName}
-        />
-        <div className="baseline" />
+      <Card className={classes.container}>
+        <form onSubmit={handleSubmit} className={classes.form}>
+          <input
+            type="text"
+            name="projectName"
+            onChange={changeHandler}
+            placeholder="Title"
+            value={project.projectName}
+            margin='normal'
+            variant='outlined'
+            className={classes.textField}
+            label='Project Name'
+          />
+          <div className="baseline" />
 
-        <input
-          type="text"
-          name="description"
-          onChange={changeHandler}
-          placeholder="Description"
-          value={project.description}
-        />
-        <div className="baseline" />
+          <input
+            type="text"
+            name="description"
+            onChange={changeHandler}
+            placeholder="Description"
+            value={project.description}
+            margin='normal'
+            variant='outlined'
+            className={classes.textField}
+          />
+          <div className="baseline" />
 
-        <input
-          type="text"
-          name="photoUrl"
-          onChange={changeHandler}
-          placeholder="Photo URL"
-          value={project.photoUrl}
-        />
-        <div className="baseline" />
+          <input
+            type="text"
+            name="photoUrl"
+            onChange={changeHandler}
+            placeholder="Photo URL"
+            value={project.photoUrl}
+            margin='normal'
+            variant='outlined'
+            className={classes.textField}
+          />
+          <div className="baseline" />
 
-        <input
-          type="text"
-          name="materials"
-          onChange={changeHandler}
-          placeholder="Materials"
-          value={project.materials}
-        />
-        <div className="baseline" />
+          <input
+            type="text"
+            name="materials"
+            onChange={changeHandler}
+            placeholder="Materials"
+            value={project.materials}
+            margin='normal'
+            variant='outlined'
+            className={classes.textField}
+          />
+          <div className="baseline" />
 
-        <input
-          type="text"
-          name="steps"
-          onChange={changeHandler}
-          placeholder="Steps"
-          value={project.steps}
-        />
-        <div className="baseline" />
+          <input
+            type="text"
+            name="steps"
+            onChange={changeHandler}
+            placeholder="Steps"
+            value={project.steps}
+            margin='normal'
+            variant='outlined'
+            className={classes.textField}
+          />
+          <div className="baseline" />
 
-        <button type="submit">Edit</button>
-        <button onClick= { () => deleteProject(project)}>Delete</button>
-      </form>
+          <Button type="submit" variant='contained' size='small' color='primary'
+            className={classes.button}>
+              Edit
+          </Button>
+          <Button onClick= { () => deleteProject(project)} variant='contained' size='small' color='primary'
+            className={classes.button}>
+              Delete
+          </Button>
+        </form>
+      </Card>
     </div>
   );
 
