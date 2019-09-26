@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 import ProjectCard from './ProjectCard';
+import { axiosWithAuth} from '../utils/axiosWithAuth.js';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,12 +24,20 @@ const UserProfile = props => {
   const classes = useStyles();
   const [ projects, setProjects ] = useState([])
   const userId = props.match.params.userId;
+  // console.log(localStorage.getItem('token'));
   useEffect(() => {
     const getProjects = () => {
+      // axiosWithAuth()
+      //   .get(`/users/user/${userId}`)
       axios
-        .get(`https://diy-tracker.herokuapp.com/users/user/${userId}`)
+        .get(`https://diy-tracker.herokuapp.com/users/user/${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        })
         .then(response => {
           // console.log(response);
+          response.data.projects.sort((a, b) => b.projectId - a.projectId);
           setProjects(response.data.projects);
         })
         .catch(error => {
@@ -50,7 +59,7 @@ const UserProfile = props => {
             <Paper className={classes.paper}>
             {projects.map(project => {
               return (
-                <ProjectCard key={project.id} project={project} />
+                <ProjectCard key={project.projectId} project={project} />
               )
             })}
             </Paper>

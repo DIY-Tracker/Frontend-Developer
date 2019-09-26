@@ -10,6 +10,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
+import { axiosWithAuth } from '../utils/axiosWithAuth'; 
+
 const useStyles = makeStyles(theme => ({
   container: {
     width: '1000px',
@@ -40,8 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AddProjectForm = ({ values, touched, errors, status, setFieldValue }, props) => {
-  console.log(props);
+const AddProjectForm = ({ values, touched, errors, status, setFieldValue }) => {
   const classes = useStyles();
   const [projects, setProjects] = useState({});
 
@@ -50,7 +51,7 @@ const AddProjectForm = ({ values, touched, errors, status, setFieldValue }, prop
       setProjects({ ...projects, status })
     }
   }, [status])
-
+  
   return (
     <Card className={classes.container}>
       <Form className={classes.form}>
@@ -60,10 +61,10 @@ const AddProjectForm = ({ values, touched, errors, status, setFieldValue }, prop
         <Field type='description' name='description' placeholder='Enter Project Description' component={TextField} label='Project Description'
           className={classes.textField} margin='normal' variant='outlined' />
         {touched.description && errors.description && (<p>{errors.description}</p>)}  
-        {values.imageUrl && (<img src={values.imageUrl} alt='Project Image'/>)}
-        <Field type='imageUrl' name='imageUrl' placeholder='Enter File URL' component={TextField} label='Image URL'
+        {values.Url && (<img src={values.imageUrl} alt='Project Image'/>)}
+        <Field type='photoUrl' name='photoUrl' placeholder='Enter Photo URL' component={TextField} label='Photo URL'
           className={classes.textField} margin='normal' variant='outlined' />
-        {touched.imageUrl && errors.imageUrl && (<p>{errors.imageUrl}</p>)}
+        {touched.photoUrl && errors.photoUrl && (<p>{errors.photoUrl}</p>)}
         
         <FieldArray
           name='materials'
@@ -149,45 +150,41 @@ const AddProjectForm = ({ values, touched, errors, status, setFieldValue }, prop
 }
 
 const FormikAddProjectForm = withFormik({
-  mapPropsToValues({ projectName, materials, steps, imageUrl, description }) {
+  mapPropsToValues({ projectName, materials, steps, photoUrl, description, match }) {
+    // console.log('history props are', match)
     return {
       projectName: projectName || '',
       materials: materials || [''],
       steps: steps || [''],
-      imageUrl: imageUrl || '',
+      photoUrl: photoUrl || '',
       description: description || ''
     }
   },
-  // validationSchema: Yup.object().shape({
-  // name: Yup.string()
-  // .required('Project Name is required'),
-  // materials: Yup.array()
-  // .of(
-  //   Yup.object().shape({
-  //     material: Yup.string()
-  //       .required('Required'), // these constraints take precedence
-  //   })
-  // )
-  // .required('Must have materials') // these constraints are shown if and only if inner constraints are satisfied
-  // .min(3, 'Minimum of 3 materials'),
-  // materials: Yup.string()
-  // .required('The materials needed for the project are required'),
-  // steps: Yup.string()
-  // .required('Steps are required. If the project is not yet complete just list the steps that you have completed till now'),
-  // fileUrl: Yup.string()
-  // .required('Please add URL of the image you want to upload')
-  // }),
-  handleSubmit(values, { setStatus, resetForm }) {
+
+  validationSchema: Yup.object().shape({
+  projectName: Yup.string().required('Project Name is required'),
+  photoUrl: Yup.string().required('Please add URL of the image you want to upload'),
+  description: Yup.string().required('Please add a brief description of the project'),
+  materials: Yup.array().of(Yup.string().required('Material required')),
+  steps: Yup.array().of(Yup.string().required('Step required'))  
+  }),
+
+  handleSubmit(values, { setStatus, resetForm, props }) {
+    // console.log(props);
     console.log(values);
-    // axios.post('https://diy-tracker.herokuapp.com/projects/projects/13', values)
-    //   .then(response => {
-    //     console.log(response);
-    //     setStatus(response.data);
-    //     resetForm();
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   })
+    const userId = props.match.params.userId;
+;    // axios.post('https://diy-tracker.herokuapp.com/projects/projects/13', values)
+    axiosWithAuth()
+      .post(`/projects/projects/${userId}`, values)
+        .then(response => {
+          console.log(response);
+          setStatus(response.data);
+          resetForm();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    console.log('Form submitted');
   }
 
 })(AddProjectForm);

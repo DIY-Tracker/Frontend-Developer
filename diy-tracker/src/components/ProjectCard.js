@@ -30,9 +30,7 @@ const useStyles = makeStyles(theme => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
+  
 }));
 
 
@@ -48,26 +46,12 @@ const ProjectCard = props => {
   };
 
 
-  return (
-    // <div>
-    //   <h1>{name}</h1>
-    //   <img src={fileUrl} alt='Project Picture' />
-    //   <ul>
-    //     {materials && materials.map((material, index)=> (
-    //       <li key={index}>{material}</li>
-    //     ))}
-    //   </ul> 
-    //   <ul>
-    //     {steps && steps.map((step, index) => (
-    //       <li key={index}>{step}</li>
-    //     ))}
-    //   </ul> 
-    // </div>    
+  return (    
     <Card className={classes.card}>
       <CardMedia
         className={classes.media}
         image={photoUrl}
-        // projectName={projectName}
+        title={projectName}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">
@@ -94,11 +78,11 @@ const ProjectCard = props => {
         <CardContent>
           <Typography paragraph>Materials</Typography>
           {materials.map((material, index) => {
-            return <Typography paragraph>{material}</Typography>;
+            return <Typography paragraph key={index}>{material}</Typography>;
           })}
           <Typography paragraph>Method:</Typography>
           {steps.map((step, index) => {
-            return <Typography paragraph>{step}</Typography>;
+            return <Typography paragraph key={index}>{step}</Typography>;
           })}
         <button onClick= { () => window.location =`/projects/project/${props.project.projectId}`}>
               View Project

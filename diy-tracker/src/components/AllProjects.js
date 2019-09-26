@@ -12,6 +12,7 @@ const AllProjects = () => {
         .get('https://diy-tracker.herokuapp.com/projects/projects')
           .then(response => {
             // console.log(response);
+            response.data.sort((a, b) => b.projectId - a.projectId);
             setAllProjects(response.data);
           })
           .catch(error => {
