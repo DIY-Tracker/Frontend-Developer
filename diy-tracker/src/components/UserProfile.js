@@ -42,6 +42,10 @@ const UserProfile = props => {
         })
         .catch(error => {
           console.log('Server Error', error);
+          if (error.response.status === 401) {
+            props.history.push('/login');
+          }
+          
         })
       
     }

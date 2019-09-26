@@ -76,11 +76,11 @@ const ProjectCard = props => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
       <div>
         <CardContent>
-          <Typography paragraph>Materials</Typography>
+          <Typography paragraph>Materials:</Typography>
           {materials.map((material, index) => {
             return <Typography paragraph key={index}>{material}</Typography>;
           })}
-          <Typography paragraph>Method:</Typography>
+          <Typography paragraph>Steps:</Typography>
           {steps.map((step, index) => {
             return <Typography paragraph key={index}>{step}</Typography>;
           })}

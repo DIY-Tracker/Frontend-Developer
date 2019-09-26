@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import styled from 'styled-components';
 
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 
 const FormContainer = styled.div`
@@ -62,7 +63,12 @@ class Login extends React.Component {
       .then(res => {
         console.log('token response:', res);
         localStorage.setItem('token', res.data.access_token);
-        this.props.history.push(`/users/:userId`);
+        axiosWithAuth()
+          .get('/users/getusername') 
+            .then(response => {
+              // console.log(response);
+              this.props.history.push(`/users/${response.data.userid}`);
+            })
       })
       .catch(err => console.log(err));
   };
