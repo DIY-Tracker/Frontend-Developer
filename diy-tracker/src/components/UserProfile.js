@@ -2,21 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import ProjectCard from './ProjectCard';
 import { axiosWithAuth} from '../utils/axiosWithAuth.js';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    margin: '20px auto',
+    padding: '40px',
+    width: '80%',
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
+  button: {
+    margin: theme.spacing(1),
+  }
 }));
 
 const UserProfile = props => {
@@ -57,22 +57,23 @@ const UserProfile = props => {
   return (
     <div>
       <h1>My Projects</h1>
+      {/* <Link to={`${props.match.url}/add`}> */}
+        <Button className={classes.button} variant='contained' color='primary' size='medium'
+          onClick={()=> props.history.push(`/users/${props.match.params.userID}/add`)}>
+          Create New Project
+        </Button>
+      {/* </Link> */}
       <div className={classes.root}>
         <Grid container spacing={3}>
-          <Grid item sm={6}>
-            <Paper className={classes.paper}>
             {projects.map(project => {
-              return (
-                <ProjectCard key={project.projectId} project={project} />
-              )
-            })}
-            </Paper>
-          </Grid>  
+                return (
+                  <Grid item xs={6}>
+                    <ProjectCard key={project.projectId} project={project} />
+                  </Grid>  
+                )              
+              })}
         </Grid> 
       </div>
-      <Link to={`${props.match.url}/add`}>
-        <button>Create New Project</button>
-      </Link>
     </div>
   )
 }
