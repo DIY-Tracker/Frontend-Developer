@@ -4,6 +4,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 
+
 const FormContainer = styled.div`
   height: 50vh;
   width:35vw;
@@ -32,7 +33,6 @@ const Input =styled.input`
 border-radius: 5px;
 `;
 class Login extends React.Component {
-
   state = {
     credentials: {
       username: '',
@@ -62,7 +62,7 @@ class Login extends React.Component {
       .then(res => {
         console.log('token response:', res);
         localStorage.setItem('token', res.data.access_token);
-        this.props.history.push('/allprojects');
+        this.props.history.push(`/users/:userId`);
       })
       .catch(err => console.log(err));
   };

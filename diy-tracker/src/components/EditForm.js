@@ -37,7 +37,13 @@ const EditForm = props => {
     let value = ev.target.value;
 
     setProject({
-      ...project,
+      // ...project,
+      projectId: project.projectId,
+      projectName : project.projectName,
+      description : project.description,
+      photoUrl : project.photoUrl,
+      materials : project.materials,
+      steps : project.steps,
       [ev.target.name]: value
     });
   };
@@ -46,7 +52,7 @@ const EditForm = props => {
     console.log('inside handle submit', project)
     e.preventDefault();
     axiosWithAuth()
-    .put(`/projects/projects/${project.projectId}`, project)
+    .put(`/projects/project/${project.projectId}`, project)
       .then(res => {
         setProject(res.data);
         window.location =`/projects/project/${project.projectId}`;
