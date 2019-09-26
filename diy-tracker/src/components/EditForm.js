@@ -78,7 +78,6 @@ const EditForm = props => {
           .then(response => {
             window.location =(`/users/${response.data.userid}`);
           })
-        //  window.location = `/`;
       })
       .catch(err => console.log(err.response));
   }

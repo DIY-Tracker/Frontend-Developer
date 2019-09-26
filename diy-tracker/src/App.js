@@ -31,7 +31,6 @@ function App() {
     <Router>
     <div className="App">
       <Navbar />
-      <h1>DIY Tracker</h1>
       <Route path="/login" component={Login} projects={projects}/>       
       <Route path="/signup" component={SignUp}/>
       <Route path="/projects/project/:projectId" 
@@ -40,7 +39,7 @@ function App() {
                 }}
                 />  
 
-      <Route exact path='/allprojects' component={AllProjects} />  
+      <Route exact path='/' component={AllProjects} />  
       <Route exact path='/users/:userId' component={UserProfile} />
       <Route exact path='/users/:userId/add' component={AddProject} />
     </div>
