@@ -84,6 +84,9 @@ const ProjectCard = props => {
           {steps.map((step, index) => {
             return <Typography paragraph key={index}>{step}</Typography>;
           })}
+        <button onClick= { () => window.location =`/projects/project/${props.project.projectId}`}>
+              View Project
+        </button>
         </CardContent>
       </div>  
       </Collapse>

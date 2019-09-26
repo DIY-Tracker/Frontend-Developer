@@ -33,15 +33,15 @@ function App() {
       <Navbar />
       <h1>DIY Tracker</h1>
       <Route path="/login" component={Login}/>       
-      <Route path="/signup" component={SignUp}/>   
+      <Route path="/signup" component={SignUp}/>
+      <Route path="/projects/project/:projectId" 
+            render={props=>{
+              return <EditForm {...props} />
+                }}
+                />  
 
       <Route exact path='/allprojects' component={AllProjects} />  
       <Route exact path='/users/:userId' component={UserProfile} />
-      <Route path="/projects/project" 
-      render={props=>{
-      return <EditForm {...props} />
-        }}
-        />  
       <Route exact path='/users/:userId/add' component={AddProject} />
     </div>
     </Router>
