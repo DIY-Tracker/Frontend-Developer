@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 import styled from 'styled-components';
 
