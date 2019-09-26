@@ -47,6 +47,8 @@ const EditForm = props => {
       [ev.target.name]: value
     });
   };
+  
+
 
   const handleSubmit = e => {
     console.log('inside handle submit', project)
@@ -55,7 +57,11 @@ const EditForm = props => {
     .put(`/projects/project/${project.projectId}`, project)
       .then(res => {
         setProject(res.data);
-        window.location =`/projects/project/${project.projectId}`;
+        axiosWithAuth()
+        .get('/users/getusername') 
+          .then(response => {
+            window.location =(`/users/${response.data.userid}`);
+          })
         console.log('ewerew', window.location);
         setProject(initialProject);
       })
@@ -67,7 +73,12 @@ const EditForm = props => {
       .delete(`/projects/project/${project.projectId}`)
       .then(res => {
         setProject(project);
-        window.location = "/allprojects";
+        axiosWithAuth()
+        .get('/users/getusername') 
+          .then(response => {
+            window.location =(`/users/${response.data.userid}`);
+          })
+        //  window.location = `/`;
       })
       .catch(err => console.log(err.response));
   }
