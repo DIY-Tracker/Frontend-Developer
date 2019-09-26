@@ -61,7 +61,7 @@ const AddProjectForm = ({ values, touched, errors, status, setFieldValue }) => {
         <Field type='description' name='description' placeholder='Enter Project Description' component={TextField} label='Project Description'
           className={classes.textField} margin='normal' variant='outlined' />
         {touched.description && errors.description && (<p>{errors.description}</p>)}  
-        {values.Url && (<img src={values.imageUrl} alt='Project Image'/>)}
+        {values.photoUrl && (<img src={values.photoUrl} alt='Project Image'/>)}
         <Field type='photoUrl' name='photoUrl' placeholder='Enter Photo URL' component={TextField} label='Photo URL'
           className={classes.textField} margin='normal' variant='outlined' />
         {touched.photoUrl && errors.photoUrl && (<p>{errors.photoUrl}</p>)}
@@ -170,7 +170,7 @@ const FormikAddProjectForm = withFormik({
   }),
 
   handleSubmit(values, { setStatus, resetForm, props }) {
-    // console.log(props);
+    console.log(props);
     console.log(values);
     const userId = props.match.params.userId;
 ;    // axios.post('https://diy-tracker.herokuapp.com/projects/projects/13', values)
@@ -180,8 +180,9 @@ const FormikAddProjectForm = withFormik({
           console.log(response);
           setStatus(response.data);
           resetForm();
+          props.history.push(`/users/${props.match.params.userId}`)
         })
-        .catch(error => {
+        .catch(error => { 
           console.log(error);
         })
     console.log('Form submitted');
