@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -30,7 +30,9 @@ const useStyles = makeStyles(theme => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  
+  button: {
+    margin: theme.spacing(1),
+  }
 }));
 
 
@@ -45,6 +47,7 @@ const ProjectCard = props => {
     setExpanded(!expanded);
   };
 
+  const showViewProjectButton = (props.isSignedIn) || false;
 
   return (    
     <Card className={classes.card}>
@@ -84,9 +87,10 @@ const ProjectCard = props => {
           {steps.map((step, index) => {
             return <Typography paragraph key={index}>{step}</Typography>;
           })}
-        <button onClick= { () => window.location =`/projects/project/${props.project.projectId}`}>
+        {showViewProjectButton && <Button className={classes.button} variant='contained' color='primary' 
+          onClick= { () => window.location =`/projects/project/${props.project.projectId}`}>
               View Project
-        </button>
+        </Button>}
         </CardContent>
       </div>  
       </Collapse>
