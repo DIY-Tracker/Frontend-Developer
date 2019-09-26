@@ -42,8 +42,7 @@ function App() {
       return <EditForm {...props} />
         }}
         />  
-      <Route path='/users/:userId' component={UserProfile} />
-      <Route path='/users/:userId/add' component={AddProject} />
+      <Route exact path='/users/:userId/add' component={AddProject} />
     </div>
     </Router>
     </ProjectContext.Provider>
