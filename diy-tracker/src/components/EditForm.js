@@ -8,8 +8,8 @@ const initialProject = {
 projectName : "",
 description : "",
 photoUrl : "",
-materials : "",
-steps : ""
+materials : [],
+steps : []
 };
 
 const EditForm = props => {
@@ -67,7 +67,7 @@ const EditForm = props => {
       .delete(`/projects/project/${project.projectId}`)
       .then(res => {
         setProject(project);
-        window.location = "/";
+        window.location = "/allprojects";
       })
       .catch(err => console.log(err.response));
   }
