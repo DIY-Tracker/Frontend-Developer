@@ -57,18 +57,16 @@ const UserProfile = props => {
   return (
     <div>
       <h1>My Projects</h1>
-      {/* <Link to={`${props.match.url}/add`}> */}
-        <Button className={classes.button} variant='contained' color='primary' size='medium'
-          onClick={()=> props.history.push(`/users/${props.match.params.userID}/add`)}>
+      <Button className={classes.button} variant='contained' color='primary' size='medium'
+        onClick={()=> props.history.push(`/users/${props.match.params.userID}/add`)}>
           Create New Project
-        </Button>
-      {/* </Link> */}
+      </Button>
       <div className={classes.root}>
         <Grid container spacing={3}>
             {projects.map(project => {
                 return (
                   <Grid item xs={6}>
-                    <ProjectCard key={project.projectId} project={project} />
+                    <ProjectCard key={project.projectId} project={project} isSignedIn={true} />
                   </Grid>  
                 )              
               })}

@@ -47,6 +47,7 @@ const ProjectCard = props => {
     setExpanded(!expanded);
   };
 
+  const showViewProjectButton = (props.isSignedIn) || false;
 
   return (    
     <Card className={classes.card}>
@@ -86,10 +87,10 @@ const ProjectCard = props => {
           {steps.map((step, index) => {
             return <Typography paragraph key={index}>{step}</Typography>;
           })}
-        <Button className={classes.button} variant='contained' color='primary' 
+        {showViewProjectButton && <Button className={classes.button} variant='contained' color='primary' 
           onClick= { () => window.location =`/projects/project/${props.project.projectId}`}>
               View Project
-        </Button>
+        </Button>}
         </CardContent>
       </div>  
       </Collapse>
